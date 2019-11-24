@@ -3,17 +3,47 @@ package bowling;
 import java.util.Objects;
 
 public class NormalFrame {
-    int score;
+    private static final int STRIKE_SCORE = 10;
 
-    public NormalFrame(int score) {
-        checkRange(score);
-        this.score = score;
+    private String result;
+    private Scores scores;
+
+    public NormalFrame() {
+        this.scores = new Scores();
     }
 
-    private void checkRange(int score) {
-        if (score < 0 || score > 10) {
-            throw new IllegalArgumentException("투구 수는 0~10사이여야 합니다");
+    public NormalFrame(int score) {
+        this();
+        this.scores.add(new Score(score));
+    }
+
+    public NormalFrame shoot(int score) {
+        scores.add(new Score(score));
+
+        if (isStrike(score)) {
+            result = "X";
+            return this;
         }
+
+        if (isSpare()) {
+            result = "/";
+            return this;
+        }
+
+        result = "MISS";
+        return this;
+    }
+
+    private boolean isStrike(int score) {
+        return score == STRIKE_SCORE;
+    }
+
+    private boolean isSpare() {
+        return scores.isSpare();
+    }
+
+    public String getResult() {
+        return this.result;
     }
 
     @Override
@@ -21,11 +51,11 @@ public class NormalFrame {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NormalFrame that = (NormalFrame) o;
-        return score == that.score;
+        return Objects.equals(scores, that.scores);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(score);
+        return Objects.hash(scores);
     }
 }

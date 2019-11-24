@@ -21,4 +21,26 @@ public class FrameTest {
             new NormalFrame(score);
         });
     }
+
+    @Test
+    void 프레임_스트라이크() {
+        NormalFrame frame = new NormalFrame();
+        assertThat(frame.shoot(10).getResult()).isEqualTo("X");
+    }
+
+    @Test
+    void 프레임_스페어() {
+        NormalFrame frame = new NormalFrame();
+
+        frame.shoot(3);
+        assertThat(frame.shoot(7).getResult()).isEqualTo("/");
+    }
+
+    @Test
+    void 프레임_미스() {
+        NormalFrame frame = new NormalFrame();
+
+        frame.shoot(3);
+        assertThat(frame.shoot(3).getResult()).isEqualTo("MISS");
+    }
 }
