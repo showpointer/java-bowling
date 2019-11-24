@@ -1,6 +1,5 @@
-package bowling;
+package bowling.domain;
 
-import bowling.domain.NormalFrame;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -26,7 +25,7 @@ public class FrameTest {
     @Test
     void 프레임_스트라이크() {
         NormalFrame frame = new NormalFrame();
-        assertThat(frame.shoot(10).getResult()).isEqualTo("X");
+        assertThat(frame.shoot(10).getStatus().getStatus()).isEqualTo("X");
     }
 
     @Test
@@ -34,7 +33,7 @@ public class FrameTest {
         NormalFrame frame = new NormalFrame();
 
         frame.shoot(3);
-        assertThat(frame.shoot(7).getResult()).isEqualTo("/");
+        assertThat(frame.shoot(7).getStatus().getStatus()).isEqualTo("/");
     }
 
     @Test
@@ -42,6 +41,6 @@ public class FrameTest {
         NormalFrame frame = new NormalFrame();
 
         frame.shoot(3);
-        assertThat(frame.shoot(3).getResult()).isEqualTo("MISS");
+        assertThat(frame.shoot(3).getStatus().getStatus()).isEqualTo("MISS");
     }
 }

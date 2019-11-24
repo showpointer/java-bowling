@@ -1,4 +1,4 @@
-package bowling;
+package bowling.domain;
 
 import bowling.domain.Score;
 import bowling.domain.Scores;

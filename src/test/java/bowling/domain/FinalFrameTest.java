@@ -1,10 +1,8 @@
-package bowling;
+package bowling.domain;
 
-import bowling.domain.FinalFrame;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -49,7 +47,7 @@ public class FinalFrameTest {
     @Test
     void 파이널프레임_스트라이크() {
         FinalFrame frame = new FinalFrame();
-        assertThat(frame.shoot(10).getResult()).isEqualTo("X");
+        assertThat(frame.shoot(10).getStatus().getStatus()).isEqualTo("X");
     }
 
     @Test
@@ -57,7 +55,7 @@ public class FinalFrameTest {
         FinalFrame frame = new FinalFrame();
 
         frame.shoot(3);
-        assertThat(frame.shoot(7).getResult()).isEqualTo("/");
+        assertThat(frame.shoot(7).getStatus().getStatus()).isEqualTo("/");
     }
 
     @Test
@@ -65,6 +63,6 @@ public class FinalFrameTest {
         FinalFrame frame = new FinalFrame();
 
         frame.shoot(3);
-        assertThat(frame.shoot(3).getResult()).isEqualTo("MISS");
+        assertThat(frame.shoot(3).getStatus().getStatus()).isEqualTo("MISS");
     }
 }

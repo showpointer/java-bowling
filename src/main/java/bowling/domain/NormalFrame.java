@@ -5,42 +5,57 @@ import java.util.Objects;
 public class NormalFrame implements Frame {
     private static final int NORMAL_SCORES_SIZE = 2;
 
-    private String result;
+    private Status status;
     private Scores scores;
 
     public NormalFrame() {
         this.scores = new Scores(NORMAL_SCORES_SIZE);
     }
 
+    @Override
     public NormalFrame shoot(int score) {
         scores.add(new Score(score));
 
-        if (isStrike(score)) {
-            result = "X";
+        if (isStrike()) {
+            status = status.STRIKE;
             return this;
         }
 
         if (isSpare()) {
-            result = "/";
+            status = status.SPARE;
             return this;
         }
 
-        result = "MISS";
+        status = status.MISS;
         return this;
     }
 
-    private boolean isStrike(int score) {
-        return score == STRIKE_SCORE;
+    @Override
+    public int getSum() {
+        return scores.sum();
     }
 
-    private boolean isSpare() {
+    @Override
+    public boolean isStrike() {
+        return scores.isStrike();
+    }
+
+    @Override
+    public boolean isSpare() {
         return scores.isSpare();
     }
 
-    public String getResult() {
-        return this.result;
+    @Override
+    public Scores getScores() {
+        return scores;
     }
 
+    @Override
+    public Status getStatus() {
+        return this.status;
+    }
+
+    @Override
     public int size() {
         return scores.size();
     }

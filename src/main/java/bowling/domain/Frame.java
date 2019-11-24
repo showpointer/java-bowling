@@ -6,4 +6,14 @@ public interface Frame {
     Frame shoot(int score);
 
     int size();
+
+    int getSum();
+
+    boolean isStrike();
+
+    boolean isSpare();
+
+    Scores getScores();
+
+    Status getStatus();
 }

@@ -3,44 +3,72 @@ package bowling.domain;
 import java.util.Objects;
 
 public class FinalFrame implements Frame {
+    private static final int MISS_FINAL_SCORES_SIZE = 2;
     private static final int FINAL_SCORES_SIZE = 3;
 
-    private String result;
+    private Status status;
     private Scores scores;
 
     public FinalFrame() {
         this.scores = new Scores(FINAL_SCORES_SIZE);
     }
 
+    @Override
     public FinalFrame shoot(int score) {
         scores.add(new Score(score));
 
-        if (isStrike(score)) {
-            result = "X";
+        if (isStrike()) {
+            status = status.STRIKE;
             return this;
         }
 
         if (isSpare()) {
-            result = "/";
+            status = status.SPARE;
             return this;
         }
 
-        result = "MISS";
+        status = status.MISS;
         return this;
     }
 
-    private boolean isStrike(int score) {
-        return score == STRIKE_SCORE;
+    @Override
+    public int getSum() {
+        if (size() == MISS_FINAL_SCORES_SIZE) {
+            return getFirstSecondSum();
+        }
+        return scores.sum();
     }
 
-    private boolean isSpare() {
+    public int getFirstSecondSum() {
+        return scores.sumFirstAndSecound();
+
+    }
+
+    public int getFirstScore() {
+        return scores.getFirstScore();
+    }
+
+    @Override
+    public boolean isStrike() {
+        return scores.isStrike();
+    }
+
+    @Override
+    public boolean isSpare() {
         return scores.isSpare();
     }
 
-    public String getResult() {
-        return this.result;
+    @Override
+    public Scores getScores() {
+        return scores;
     }
 
+    @Override
+    public Status getStatus() {
+        return this.status;
+    }
+
+    @Override
     public int size() {
         return scores.size();
     }
@@ -50,13 +78,12 @@ public class FinalFrame implements Frame {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FinalFrame that = (FinalFrame) o;
-        return Objects.equals(result, that.result) &&
+        return status == that.status &&
                 Objects.equals(scores, that.scores);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(result, scores);
+        return Objects.hash(status, scores);
     }
-
 }

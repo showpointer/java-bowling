@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static bowling.domain.Frame.STRIKE_SCORE;
+
 public class Scores {
     private int maxScoresSize = 2;
     private static final int MAX_SCORES_SUM = 10;
@@ -37,15 +39,29 @@ public class Scores {
         }
     }
 
-    private int sum() {
+    public int sum() {
         return scores.stream()
                 .map(Score::getScore)
                 .reduce(0, Integer::sum);
     }
 
+    public int sumFirstAndSecound() {
+        return scores.get(0).getScore() + scores.get(1).getScore();
+    }
+
+    public int getFirstScore() {
+        return scores.get(0).getScore();
+    }
+
+
+    public boolean isStrike() {
+        return scores.get(0).getScore() == STRIKE_SCORE;
+    }
+
     public boolean isSpare() {
         return sum() == MAX_SCORES_SUM;
     }
+
 
     @Override
     public boolean equals(Object o) {
