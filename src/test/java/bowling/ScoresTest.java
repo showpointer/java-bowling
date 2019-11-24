@@ -1,5 +1,7 @@
 package bowling;
 
+import bowling.domain.Score;
+import bowling.domain.Scores;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ public class ScoresTest {
     }
 
     @Test
-    void Scores_두개이상_Score생성불가() {
+    void NormalScores_두개이상_Score생성불가() {
         List<Score> list = new ArrayList<>();
         Scores scores = new Scores(list);
 

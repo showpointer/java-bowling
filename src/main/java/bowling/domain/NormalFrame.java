@@ -1,20 +1,15 @@
-package bowling;
+package bowling.domain;
 
 import java.util.Objects;
 
-public class NormalFrame {
-    private static final int STRIKE_SCORE = 10;
+public class NormalFrame implements Frame {
+    private static final int NORMAL_SCORES_SIZE = 2;
 
     private String result;
     private Scores scores;
 
     public NormalFrame() {
-        this.scores = new Scores();
-    }
-
-    public NormalFrame(int score) {
-        this();
-        this.scores.add(new Score(score));
+        this.scores = new Scores(NORMAL_SCORES_SIZE);
     }
 
     public NormalFrame shoot(int score) {
@@ -44,6 +39,10 @@ public class NormalFrame {
 
     public String getResult() {
         return this.result;
+    }
+
+    public int size() {
+        return scores.size();
     }
 
     @Override
