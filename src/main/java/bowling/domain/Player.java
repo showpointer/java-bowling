@@ -8,7 +8,7 @@ public class Player {
     private static int NAME_SIZE = 3;
     private static Pattern pattern = Pattern.compile(ENGLISH_REGEX);
 
-    String name;
+    private String name;
 
     public Player(String name) {
         checkEnglish(name);
@@ -36,5 +36,9 @@ public class Player {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    public String getName() {
+        return this.name;
     }
 }
