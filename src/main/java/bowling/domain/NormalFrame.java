@@ -46,8 +46,8 @@ public class NormalFrame implements Frame {
     }
 
     @Override
-    public Scores getScores() {
-        return scores;
+    public int getFirstScore() {
+        return scores.getFirstScore();
     }
 
     @Override

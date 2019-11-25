@@ -36,6 +36,7 @@ public class FinalFrame implements Frame {
         if (size() == MISS_FINAL_SCORES_SIZE) {
             return getFirstSecondSum();
         }
+
         return scores.sum();
     }
 
@@ -56,11 +57,6 @@ public class FinalFrame implements Frame {
     @Override
     public boolean isSpare() {
         return scores.isSpare();
-    }
-
-    @Override
-    public Scores getScores() {
-        return scores;
     }
 
     @Override

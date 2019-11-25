@@ -1,5 +1,6 @@
 package bowling.domain;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,6 +11,34 @@ import static bowling.domain.Total.*;
 import static org.assertj.core.api.Assertions.*;
 
 public class TotalTest {
+    // Strike
+    private Frame strikeFrame = new NormalFrame();
+    private Frame finalStrikeAnd5And5 = new FinalFrame();
+
+    // Gutters
+    private Frame normalGutters = new NormalFrame();
+    private Frame finalGutters = new FinalFrame();
+
+    // Miss
+    private Frame miss5And0 = new NormalFrame();
+    private Frame fianl2And3 = new FinalFrame();
+
+    @BeforeEach
+    void setUp() {
+        strikeFrame.shoot(10);
+        finalStrikeAnd5And5.shoot(10);
+        finalStrikeAnd5And5.shoot(5);
+        finalStrikeAnd5And5.shoot(5);
+        normalGutters.shoot(0);
+        normalGutters.shoot(0);
+        finalGutters.shoot(0);
+        finalGutters.shoot(0);
+        miss5And0.shoot(5);
+        miss5And0.shoot(0);
+        fianl2And3.shoot(2);
+        fianl2And3.shoot(3);
+    }
+
     @Test
     void 토탈_생성() {
         Frame frame = new NormalFrame();
@@ -33,84 +62,57 @@ public class TotalTest {
     }
 
     @Test
-    void 토탈2회_미스_미스_총점_얻기() {
-        Frame normalFirstFrame = new NormalFrame();
-        normalFirstFrame.shoot(2);
-        normalFirstFrame.shoot(3);
-
-        Frame normalSecondFrame = new NormalFrame();
-        normalSecondFrame.shoot(3);
-        normalSecondFrame.shoot(2);
-
-        List<Frame> frames = Arrays.asList(normalFirstFrame, normalSecondFrame);
-
-        assertThat(new Total(frames).getTotalScore()).isEqualTo(10);
-    }
-
-    @Test
-    void 토탈2회_스트라이크_미스_총점_얻기() {
-        Frame strikeFrame = new NormalFrame();
-        strikeFrame.shoot(10);
-
-        Frame missFrame = new NormalFrame();
-        missFrame.shoot(3);
-        missFrame.shoot(2);
-
-        List<Frame> frames = Arrays.asList(strikeFrame, missFrame);
-        assertThat(new Total(frames).getTotalScore()).isEqualTo(20);
-    }
-
-    @Test
-    void 토탈3회_스트라이크_스트라이크_미스_총점_얻기() {
-        Frame strikeFrame = new NormalFrame();
-        strikeFrame.shoot(10);
-
-        Frame missFrame = new NormalFrame();
-        missFrame.shoot(3);
-        missFrame.shoot(2);
-
-        List<Frame> frames = Arrays.asList(strikeFrame, strikeFrame, missFrame);
-        assertThat(new Total(frames).getTotalScore()).isEqualTo(30);
-    }
-
-    @Test
-    void 토탈10회_생성() {
-        Frame missFrame = new NormalFrame();
-        missFrame.shoot(3);
-        missFrame.shoot(2);
-
-        Frame finalFrame = new FinalFrame();
-        finalFrame.shoot(3);
-        finalFrame.shoot(2);
-
+    void 미스10_총점_얻기() {
         List<Frame> frames = new ArrayList<>();
 
         for (int i = 0; i < FINAL_ROUND_INDEX ; i++) {
-            frames.add(missFrame);
+            frames.add(miss5And0);
         }
-        frames.add(finalFrame);
+        frames.add(fianl2And3);
 
-        assertThat(new Total(frames).size()).isEqualTo(10);
+        assertThat(new Total(frames).getTotalScore()).isEqualTo(50);
     }
 
     @Test
-    void 토탈10회_올_미스_총점_얻기() {
-        Frame missFrame = new NormalFrame();
-        missFrame.shoot(3);
-        missFrame.shoot(2);
-
-        Frame finalFrame = new FinalFrame();
-        finalFrame.shoot(3);
-        finalFrame.shoot(2);
-
+    void 스트라이크2_미스8_총점_얻기() {
         List<Frame> frames = new ArrayList<>();
 
-        for (int i = 0; i < FINAL_ROUND_INDEX ; i++) {
-            frames.add(missFrame);
+        frames.add(strikeFrame);
+        frames.add(strikeFrame);
+        for (int i = 0; i < 8 ; i++) {
+            frames.add(miss5And0);
         }
-        frames.add(finalFrame);
 
-        new Total(frames).getTotalScore();
-        //assertThat(new Total(frames).getTotalScore()).isEqualTo(50);
+        assertThat(new Total(frames).getTotalScore()).isEqualTo(80);
+    }
+
+    @Test
+    void 미스7_스트라이크3_총점_얻기() {
+        List<Frame> frames = new ArrayList<>();
+
+        for (int i = 0; i < 7 ; i++) {
+            frames.add(miss5And0);
+        }
+        frames.add(strikeFrame);
+        frames.add(strikeFrame);
+        frames.add(finalStrikeAnd5And5);
+
+        assertThat(new Total(frames).getTotalScore()).isEqualTo(110);
+    }
+
+    @Test
+    void 미스3_스트라이크7_총점_얻기() {
+        List<Frame> frames = new ArrayList<>();
+
+        frames.add(miss5And0);
+        frames.add(miss5And0);
+        frames.add(miss5And0);
+
+        for (int i = 0; i < 6 ; i++) {
+            frames.add(strikeFrame);
+        }
+        frames.add(finalStrikeAnd5And5);
+
+        assertThat(new Total(frames).getTotalScore()).isEqualTo(210);
     }
 }

@@ -7,9 +7,12 @@ import java.util.Objects;
 import static bowling.domain.Frame.STRIKE_SCORE;
 
 public class Scores {
-    private int maxScoresSize = 2;
-    private static final int MAX_SCORES_SUM = 10;
+    private static final int NORMAL_FRAME_SIZE= 2;
+    public static final int FINAL_FRAME_SIZE = 3;
+    private static final int NORMAL_MAX_SCORES_SUM = 10;
+    private static final int FINAL_MAX_SCORES_SUM = 30;
 
+    private int maxScoresSize = 2;
     private List<Score> scores;
 
     public Scores(int scoresSize) {
@@ -34,8 +37,12 @@ public class Scores {
     private void checkSum() {
         int sum = sum();
 
-        if (sum > MAX_SCORES_SUM) {
-            throw new IllegalStateException("Score의 합이 " + MAX_SCORES_SUM + "을 넘을 수 없습니다");
+        if (sum > NORMAL_MAX_SCORES_SUM && maxScoresSize == NORMAL_FRAME_SIZE) {
+            throw new IllegalStateException("Normal Score의 합이 " + NORMAL_MAX_SCORES_SUM + "을 넘을 수 없습니다");
+        }
+
+        if (sum > FINAL_MAX_SCORES_SUM && maxScoresSize == FINAL_FRAME_SIZE) {
+            throw new IllegalStateException("Final Score의 합이 " + FINAL_MAX_SCORES_SUM + "을 넘을 수 없습니다");
         }
     }
 
@@ -59,9 +66,11 @@ public class Scores {
     }
 
     public boolean isSpare() {
-        return sum() == MAX_SCORES_SUM;
+        if (scores.size() < NORMAL_FRAME_SIZE) {
+            return false;
+        }
+        return sumFirstAndSecound() == NORMAL_MAX_SCORES_SUM;
     }
-
 
     @Override
     public boolean equals(Object o) {

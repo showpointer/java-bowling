@@ -9,11 +9,11 @@ public interface Frame {
 
     int getSum();
 
+    int getFirstScore();
+
     boolean isStrike();
 
     boolean isSpare();
-
-    Scores getScores();
 
     Status getStatus();
 }
