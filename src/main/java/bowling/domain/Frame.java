@@ -16,4 +16,6 @@ public interface Frame {
     boolean isSpare();
 
     Status getStatus();
+
+    String toString();
 }

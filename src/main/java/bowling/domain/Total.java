@@ -1,5 +1,6 @@
 package bowling.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,6 +17,10 @@ public class Total {
     public Total(List<Frame> scores) {
         checkRange(scores);
         this.total = scores;
+    }
+
+    public Total() {
+        total = new ArrayList<>();
     }
 
     private void checkRange(List<Frame> scores) {
@@ -43,7 +48,6 @@ public class Total {
             score += sumByType(frame, round);
             return score;
         }
-
 
         // == 8
         if (round == NINTH_ROUND_INDEX) {
@@ -96,6 +100,18 @@ public class Total {
         return secondFrame.isStrike() && secondFrame.size() == Scores.FINAL_FRAME_SIZE;
     }
 
+    public int size() {
+        return total.size();
+    }
+
+    public boolean emptyFrame(int round) {
+        return round == size();
+    }
+
+    public List<Frame> getTotal() {
+        return total;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -108,4 +124,5 @@ public class Total {
     public int hashCode() {
         return Objects.hash(total);
     }
+
 }

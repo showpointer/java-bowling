@@ -7,8 +7,14 @@ public class InputView {
 
     public static String getPlayerName() {
         System.out.println("프로그램 실행 결과");
-        System.out.println("플레이어 이름은(3 english letters)?:");
+        System.out.print("플레이어 이름은(3 english letters)?:");
 
         return sc.next();
+    }
+
+    public static int getFrameScore(int round) {
+        System.out.print(round+1 + "프레임 투구 : ");
+
+        return sc.nextInt();
     }
 }

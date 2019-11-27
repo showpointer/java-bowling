@@ -50,6 +50,10 @@ public class NormalFrame implements Frame {
         return scores.getFirstScore();
     }
 
+    public int getSecondScore() {
+        return scores.getFirstScore();
+    }
+
     @Override
     public Status getStatus() {
         return this.status;
@@ -58,6 +62,21 @@ public class NormalFrame implements Frame {
     @Override
     public int size() {
         return scores.size();
+    }
+
+    public String toString() {
+        if (isStrike()) {
+            return Status.STRIKE.getStatus();
+        }
+
+        if (isSpare()) {
+            return getFirstScore() + "|" + Status.SPARE.getStatus();
+        }
+
+        if (size() < NORMAL_SCORES_SIZE) {
+            return Status.GUTTER.getGutter(getFirstScore());
+        }
+        return Status.GUTTER.getGutter(getFirstScore()) + "|" + Status.GUTTER.getGutter(getSecondScore());
     }
 
     @Override

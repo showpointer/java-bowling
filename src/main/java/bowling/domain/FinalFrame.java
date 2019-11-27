@@ -49,6 +49,10 @@ public class FinalFrame implements Frame {
         return scores.getFirstScore();
     }
 
+    private int getSecondScore() {
+        return scores.getSecondScore();
+    }
+
     @Override
     public boolean isStrike() {
         return scores.isStrike();
@@ -67,6 +71,22 @@ public class FinalFrame implements Frame {
     @Override
     public int size() {
         return scores.size();
+    }
+
+    public String toString() {
+        if (isStrike()) {
+            return Status.STRIKE.getStatus();
+        }
+
+        if (isSpare()) {
+            return getFirstScore() + "|" + Status.SPARE.getStatus();
+        }
+
+        if (size() < MISS_FINAL_SCORES_SIZE) {
+            return Status.GUTTER.getGutter(getFirstScore());
+        }
+
+        return Status.GUTTER.getGutter(getFirstScore()) + "|" + Status.GUTTER.getGutter(getSecondScore());
     }
 
     @Override

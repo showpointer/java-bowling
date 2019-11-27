@@ -1,33 +1,71 @@
 package bowling.service;
 
-import bowling.domain.FinalFrame;
-import bowling.domain.Frame;
-import bowling.domain.NormalFrame;
-import bowling.domain.Total;
+import bowling.domain.*;
+import bowling.view.InputView;
+import bowling.view.ResultView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static bowling.domain.Total.FINAL_ROUND_INDEX;
+import static bowling.domain.Total.MAX_FRAME_COUNT;
 
 public class BowlingGame {
-    public static void main(String[] args) {
-        Frame missFrame = new NormalFrame();
-        missFrame.shoot(3);
-        missFrame.shoot(2);
+    private Total total;
+    private int round;
+    private Player player;
 
-        Frame finalFrame = new FinalFrame();
-        finalFrame.shoot(3);
-        finalFrame.shoot(2);
+    public BowlingGame(Player player) {
+        this.total = new Total();
+        this.round = 0;
+        this.player = player;
+    }
+
+    public Total play(Total total) {
+        this.total = total;
+        Total playedTotal;
+
+        int frameScore = InputView.getFrameScore(round);
 
         List<Frame> frames = new ArrayList<>();
+        Frame frame = new NormalFrame().shoot(frameScore);
+        playedTotal = new Total(frames);
 
-        for (int i = 0; i < FINAL_ROUND_INDEX ; i++) {
-            frames.add(missFrame);
+        if (frame.getStatus() == Status.STRIKE) {
+            frames.add(frame);
+            ResultView.printScoresBoard(player, playedTotal);
+            return playedTotal;
         }
-        frames.add(finalFrame);
 
-        Total total = new Total(frames);
-        total.getTotalScore();
+        ResultView.printScoresBoard(player, playedTotal);
+
+        int secondScore = InputView.getFrameScore(round);
+        frame.shoot(secondScore);
+
+        if (frame.isSpare()) {
+            frames.add(frame);
+            ResultView.printScoresBoard(player, total);
+            return new Total();
+        }
+
+        ResultView.printScoresBoard(player, total);
+
+        return new Total(frames);
+    }
+
+    public boolean isFinalRound() {
+        return this.total.size() == FINAL_ROUND_INDEX;
+    }
+
+    public boolean isEnd() {
+        return this.total.size() > MAX_FRAME_COUNT;
+    }
+
+    public int getRound() {
+        return this.total.size();
+    }
+
+    public Total getTotal() {
+        return this.total;
     }
 }

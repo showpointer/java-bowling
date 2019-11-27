@@ -60,6 +60,10 @@ public class Scores {
         return scores.get(0).getScore();
     }
 
+    public int getSecondScore() {
+        return scores.get(1).getScore();
+    }
+
 
     public boolean isStrike() {
         return scores.get(0).getScore() == STRIKE_SCORE;
